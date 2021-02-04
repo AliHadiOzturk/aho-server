@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon src/app.ts",
-    "build": "tsc --project /dist/"
+    "build": "tsc --project /dist/",
+    "typeorm:generate": "ts-node ./node_modules/typeorm/cli.js migration:generate -n",
+    "typeorm:run": "ts-node ./node_modules/typeorm/cli.js migration:run"
   },
   "repository": {
     "type": "git",

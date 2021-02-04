@@ -29,7 +29,7 @@ app.get('/', (req: any, res) => {
 app.use(function (req, res, next) {
     res.sendStatus(404);
     // next(httpErrors(404, "Not found!"));
-});
+}); 
 
 // error handler
 app.use(function (err, req, res, next) {
