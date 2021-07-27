@@ -4,14 +4,18 @@ import httpErrors = require('http-errors')
 
 import { config } from 'dotenv';
 import "reflect-metadata";
-import { CreateConn } from './app/conn';
+import { createConnection } from 'typeorm';
 import cors = require('cors');
 
 
 //dotenv configuration
 config();
+// CreateConn().then(data => {
+//     console.log("connection created")
+// })
+
 //typeorm database connection created
-CreateConn().then(data => {
+createConnection().then(data => {
     console.log("connection created")
 })
 
@@ -29,7 +33,7 @@ app.get('/', (req: any, res) => {
 app.use(function (req, res, next) {
     res.sendStatus(404);
     // next(httpErrors(404, "Not found!"));
-}); 
+});
 
 // error handler
 app.use(function (err, req, res, next) {
