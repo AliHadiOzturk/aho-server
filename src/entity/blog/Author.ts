@@ -1,10 +1,10 @@
 import { Entity, JoinColumn, OneToMany, OneToOne } from "typeorm";
-import { BaseEntity } from "../BaseEntity";
-import { Person } from "../Person";
-import { Post } from "./Post";
+import { Person } from "../common/person";
+import { CustomBaseEntity } from "../customBaseEntity";
+import { Post } from "./post";
 
 @Entity()
-export class Author extends BaseEntity {
+export class Author extends CustomBaseEntity {
     @OneToOne(() => Person)
     @JoinColumn()
     person: Person;

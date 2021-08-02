@@ -7,3 +7,4 @@ tmp/
 package-lock.json
 ormconfig.json
 temp/
+dist/

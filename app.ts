@@ -5,14 +5,13 @@ import httpErrors = require('http-errors')
 import { config } from 'dotenv';
 import "reflect-metadata";
 import { createConnection } from 'typeorm';
+import routes from './src/routes';
+
 import cors = require('cors');
 
 
 //dotenv configuration
 config();
-// CreateConn().then(data => {
-//     console.log("connection created")
-// })
 
 //typeorm database connection created
 createConnection().then(data => {
@@ -42,10 +41,13 @@ app.use(function (err, req, res, next) {
     res.locals.error = req.app.get('env') === 'development' ? err : {};
 
     // render the error page
-    res.status(err.status || 500);
-    res.render('error');
+    res.status(err.status || 500).send();
+    // res.render('error');
 });
 
+app.use("/", routes);
+
 app.listen(process.env.PORT, () => {
+    console.log(app._router.stack);
     console.log(`⚡️[server]: Server is running at https://localhost:${process.env.PORT}`);
 });
