@@ -6,6 +6,7 @@ import { config } from 'dotenv';
 import "reflect-metadata";
 import { createConnection } from 'typeorm';
 import routes from './src/routes';
+import AppInitializer from './src/utils/appInitializer';
 
 import cors = require('cors');
 
@@ -23,12 +24,16 @@ const app = express();
 app.use(express.json())
 app.use(cors())
 
+// app.on('listening', function () {
+//     console.log("listening")
+//     new AppInitializer().init();
+// });
+// app.get('/', (req: any, res) => {
+//     res.send('Express + TypeScript Server')
+// });
 
-app.get('/', (req: any, res) => {
-    res.send('Express + TypeScript Server')
-});
-
-
+app.use("/", routes);
+app.use("/common/init", new AppInitializer().init)
 app.use(function (req, res, next) {
     res.sendStatus(404);
     // next(httpErrors(404, "Not found!"));
@@ -45,9 +50,10 @@ app.use(function (err, req, res, next) {
     // res.render('error');
 });
 
-app.use("/", routes);
+
+
 
 app.listen(process.env.PORT, () => {
-    console.log(app._router.stack);
     console.log(`⚡️[server]: Server is running at https://localhost:${process.env.PORT}`);
+
 });

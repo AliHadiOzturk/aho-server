@@ -1,7 +1,7 @@
 import * as typeorm from "typeorm";
 
 
-export class CustomBaseEntity {
+export abstract class CustomBaseEntity {
 
     @typeorm.BeforeInsert()
     updateDates() {

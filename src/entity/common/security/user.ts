@@ -1,0 +1,37 @@
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, Unique } from "typeorm";
+import { Comment } from "../../blog/comment";
+import { CustomBaseEntity } from "../../customBaseEntity";
+import { Person } from "../person";
+import { Role } from "./role";
+
+
+@Entity()
+@Unique("User", ["email", "username"])
+export class User extends CustomBaseEntity {
+
+    constructor(init?: Partial<User>) {
+        super();
+        Object.assign(this, init);
+
+    }
+    @Column()
+    username: string;
+    @Column()
+    password: string;
+    @Column()
+    email: string;
+    @OneToOne(() => Person)
+    @JoinColumn({ name: "person_id" })
+    person: Partial<Person>;
+
+    isAdmin: boolean;
+    isActive: boolean;
+
+    @OneToMany(() => Comment, comment => comment.user)
+    comments: Array<Comment>;
+
+    @ManyToMany(() => Role)
+    @JoinTable()
+    roles: Role[];
+
+}

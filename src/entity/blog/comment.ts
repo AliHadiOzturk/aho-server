@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
-import { User } from '../common/user';
+import { User } from '../common/security/user';
 import { CustomBaseEntity } from "../customBaseEntity";
 import { Post } from "./post";
 

@@ -1,7 +1,10 @@
 import * as bcrypt from 'bcryptjs';
 import { NextFunction, Request, Response, Router } from "express";
 import * as jwt from 'jsonwebtoken';
-import { GetUserRepository } from '../../entity/common/repositories/userRepository';
+import { GetUserRepository } from '../../entity/common/security/repositories/userRepository';
+import { User } from '../../entity/common/security/user';
+import { AppError } from '../../utils/appError';
+import { Person } from './../../entity/common/person';
 
 const authRouter = Router();
 interface LoginModel {
@@ -27,8 +30,8 @@ authRouter.post("/login", async (req: Request<{}, {}, LoginModel>, res: Response
 })
 
 authRouter.post("/register", async (req: Request<{}, {}, RegisterModel>, res: Response, next: NextFunction) => {
-    if (!req.body)
-        return res.sendStatus(400);
+    if (Object.keys(req.body).length == 0)
+        return res.status(400).json(new AppError(400, "", "Body cannot be empty"));
     let request = req.body;
 
     const userRepository = GetUserRepository();
@@ -40,17 +43,18 @@ authRouter.post("/register", async (req: Request<{}, {}, RegisterModel>, res: Re
 
     let encryptedPassword = await bcrypt.hash(request.password, 10);
 
-    var registeredUser = await userRepository.save(
+    var newUser = new User({
+        email: request.email,
+        password: encryptedPassword,
+        person:new Person(
         {
-            email: request.email,
-            password: encryptedPassword,
-            person: {
-                phoneNumber: request.phoneNumber,
-                firstName: request.firstName,
-                lastName: request.lastName
-            },
-            username: request.username
-        })
+            phoneNumber: request.phoneNumber,
+            firstName: request.firstName,
+            lastName: request.lastName
+        }),
+        username: request.username
+    });
+    var registeredUser = await userRepository.save(newUser);
     const token = jwt.sign(
         { username: registeredUser.username },
         process.env.TOKEN_KEY,

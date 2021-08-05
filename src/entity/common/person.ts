@@ -3,6 +3,12 @@ import { CustomBaseEntity } from "../customBaseEntity";
 
 @Entity()
 export class Person extends CustomBaseEntity {
+
+    constructor(init?: Partial<Person>) {
+        super();
+        Object.assign(this, init);
+
+    }
     @Column()
     firstName: string;
     @Column()
