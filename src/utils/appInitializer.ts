@@ -9,24 +9,33 @@ export default class AppInitializer {
 
     init = async (req, res, next) => {
         var entityManager = getManager();
-        // var roleRepository = getRepository(Role);
-        if (await entityManager.count(Role) > 0) {
-            var roleJsons = await readFileSync(path.join(__dirname, "/assets/data/roles.json"), 'utf-8')
-            var roles = JSON.parse(roleJsons);
-            await entityManager.save(Role, roles)
+        let isRoleEmpty = await entityManager.count(Role) == 0;
+        let isPermissionEmpty = await entityManager.count(Permission) == 0;
+        let isUserEmpty = await entityManager.count(User) == 0;
+
+        let savedRoles;
+        let savedPermissions;
+        let savedUsers;
+
+        if (isPermissionEmpty) {
+            var permissionsJson = await readFileSync(path.join(process.cwd(), "/assets/data/permissions.json"), 'utf-8')
+            var permissions = JSON.parse(permissionsJson) as Permission[];
+            savedPermissions = await entityManager.save(Permission, permissions)
         }
 
-        if (await entityManager.count(Permission) > 0) {
-            var permissionsJson = await readFileSync(path.join(__dirname, "/assets/data/permissions.json"), 'utf-8')
-            var permissions = JSON.parse(permissionsJson);
-            await entityManager.save(Permission, permissions)
+        if (isRoleEmpty) {
+            var roleJsons = await readFileSync(path.join(process.cwd(), "/assets/data/roles.json"), 'utf-8')
+            var roles = JSON.parse(roleJsons) as Role[];
+            roles.forEach(role => { role.permissions = savedPermissions });
+            savedRoles = await entityManager.save(Role, roles)
         }
-
-        if (await entityManager.count(User) > 0) {
-            var usersJson = await readFileSync(path.join(__dirname, "/assets/data/users.json"), 'utf-8')
-            var users = JSON.parse(usersJson);
-            await entityManager.save(User, users)
+        if (isUserEmpty) {
+            var usersJson = await readFileSync(path.join(process.cwd(), "/assets/data/users.json"), 'utf-8')
+            var users = JSON.parse(usersJson) as User[];
+            users.forEach(user => { user.roles = savedRoles });
+            savedUsers = await entityManager.save(User, users)
         }
+        console.log("Initialization completed");
         return res.sendStatus(200);
     }
 }

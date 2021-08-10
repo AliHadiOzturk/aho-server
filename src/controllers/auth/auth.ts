@@ -43,15 +43,15 @@ authRouter.post("/register", async (req: Request<{}, {}, RegisterModel>, res: Re
 
     let encryptedPassword = await bcrypt.hash(request.password, 10);
 
-    var newUser = new User({
+    var newUser = new User().create({
         email: request.email,
         password: encryptedPassword,
-        person:new Person(
-        {
-            phoneNumber: request.phoneNumber,
-            firstName: request.firstName,
-            lastName: request.lastName
-        }),
+        person: new Person().create(
+            {
+                phoneNumber: request.phoneNumber,
+                firstName: request.firstName,
+                lastName: request.lastName
+            }),
         username: request.username
     });
     var registeredUser = await userRepository.save(newUser);

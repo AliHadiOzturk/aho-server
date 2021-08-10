@@ -7,13 +7,13 @@ import { Role } from "./role";
 
 @Entity()
 @Unique("User", ["email", "username"])
-export class User extends CustomBaseEntity {
+export class User extends CustomBaseEntity<User> {
 
-    constructor(init?: Partial<User>) {
-        super();
-        Object.assign(this, init);
+    // constructor(init?: Partial<User>) {
+    //     super();
+    //     Object.assign(this, init);
 
-    }
+    // }
     @Column()
     username: string;
     @Column()
@@ -33,5 +33,10 @@ export class User extends CustomBaseEntity {
     @ManyToMany(() => Role)
     @JoinTable()
     roles: Role[];
+
+    // public create(model: Partial<User>) {
+    //     Object.assign(this, model);
+    //     return this;
+    // }
 
 }

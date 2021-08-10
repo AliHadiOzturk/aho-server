@@ -1,12 +1,13 @@
 import { NextFunction, Request, Response } from "express";
-import { BaseEntity } from "typeorm";
+import { getCustomRepository } from "typeorm";
 import { CustomAbstractRepository } from "../entity/customAbstractRepository";
 import AppResponse from "../utils/appResponse";
 import { AppError } from './../utils/appError';
 
-export const getOne = <T>(model: CustomAbstractRepository<T>) => async (req: Request<{}, {}, {}>, res: Response, next: NextFunction) => {
+export const getOne = <T>(model: any, repository: any) => async (req: Request<{}, {}, {}>, res: Response, next: NextFunction) => {
     console.log(req.query);
-    let entities = await model.getManager().findByIds<T>(BaseEntity, req.query.id as unknown[])
+    var repo = getCustomRepository(repository) as CustomAbstractRepository<T>
+    let entities = await repo.getManager().findByIds<T>(model, req.query.id as unknown[])
     if (entities.length == 0)
         return next(new AppError(404, "", "Entity not found"))
 
@@ -15,3 +16,15 @@ export const getOne = <T>(model: CustomAbstractRepository<T>) => async (req: Req
     res.status(200).json(new AppResponse(entity));
 
 }
+export const getAll = <T>(model: any, repository: any) => async (req: Request<{}, {}, {}>, res: Response, next: NextFunction) => {
+    let repo = getCustomRepository(repository) as CustomAbstractRepository<T>;
+    let entities = await repo.getManager().find<T>(model, {})
+    if (entities.length == 0)
+        return next(new AppError(404, "", "Entity not found"))
+
+
+
+    res.status(200).json(new AppResponse(entities));
+
+}
+

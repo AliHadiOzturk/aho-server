@@ -4,7 +4,7 @@ import { CustomBaseEntity } from "../customBaseEntity";
 import { Post } from "./post";
 
 @Entity()
-export class Author extends CustomBaseEntity {
+export class Author extends CustomBaseEntity<Author> {
     @OneToOne(() => Person)
     @JoinColumn()
     person: Person;

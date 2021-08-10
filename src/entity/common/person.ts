@@ -2,13 +2,13 @@ import { Column, Entity } from "typeorm";
 import { CustomBaseEntity } from "../customBaseEntity";
 
 @Entity()
-export class Person extends CustomBaseEntity {
+export class Person extends CustomBaseEntity<Person> {
 
-    constructor(init?: Partial<Person>) {
-        super();
-        Object.assign(this, init);
+    // constructor(init?: Partial<Person>) {
+    //     super();
+    //     Object.assign(this, init);
 
-    }
+    // }
     @Column()
     firstName: string;
     @Column()
@@ -19,4 +19,6 @@ export class Person extends CustomBaseEntity {
     dateOfBirth: Date;
     @Column()
     phoneNumber: string;
+
+    
 }

@@ -3,7 +3,7 @@ import { CustomBaseEntity } from "../customBaseEntity";
 import { Author } from "./author";
 import { Comment } from "./comment";
 @Entity()
-export class Post extends CustomBaseEntity {
+export class Post extends CustomBaseEntity<Post> {
     @Column()
     title: string;
     @Column()

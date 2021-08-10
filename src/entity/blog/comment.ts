@@ -4,7 +4,7 @@ import { CustomBaseEntity } from "../customBaseEntity";
 import { Post } from "./post";
 
 @Entity()
-export class Comment extends CustomBaseEntity {
+export class Comment extends CustomBaseEntity<Comment> {
     @ManyToOne(() => User, user => user.comments)
     @JoinColumn({ name: 'user_id' })
     user: User

@@ -1,7 +1,7 @@
 import * as typeorm from "typeorm";
 
 
-export abstract class CustomBaseEntity {
+export abstract class CustomBaseEntity<T> {
 
     @typeorm.BeforeInsert()
     updateDates() {
@@ -13,4 +13,9 @@ export abstract class CustomBaseEntity {
     createDate: Date;
     @typeorm.UpdateDateColumn()
     updateDate: Date;
+
+    public create(model: Partial<T>) {
+        Object.assign(this, model);
+        return this;
+    }
 }
