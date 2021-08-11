@@ -1,5 +1,6 @@
 import { Column, Entity } from "typeorm";
-import { CustomBaseEntity } from "../../customBaseEntity";
+import { CustomBaseEntity } from "../customBaseEntity";
+
 
 @Entity()
 export class Permission extends CustomBaseEntity<Permission> {

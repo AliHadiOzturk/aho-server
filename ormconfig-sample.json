@@ -6,20 +6,17 @@
     "password": "",
     "database": "",
     "entities": [
-        "dist/src/entity/**/*.js",
-        "src/entity/**/*.ts"
+        "src/entity/**/*{.ts,.js}"
     ],
     "migrations": [
-        "dist/src/migration/**/*.js",
-        "src/migration/**/*.ts"
+        "src/migration/**/*{.ts,.js}"
     ],
     "subscribers": [
-        "dist/src/subscriber/**/*.js",
-        "src/subscriber/**/*.ts"
+        "src/subscriber/**/*{.ts,.js}"
     ],
     "cli": {
-        "entitiesDir": "dist/src/entity",
-        "migrationsDir": "dist/src/migration",
-        "subscribersDir": "dist/src/subscriber"
+        "entitiesDir": "src/entity",
+        "migrationsDir": "src/migration",
+        "subscribersDir": "src/subscriber"
     }
 }

@@ -1,5 +1,5 @@
 import { Column, Entity, JoinTable, ManyToMany } from "typeorm";
-import { CustomBaseEntity } from "../../customBaseEntity";
+import { CustomBaseEntity } from "../customBaseEntity";
 import { Permission } from "./permission";
 import { User } from "./user";
 

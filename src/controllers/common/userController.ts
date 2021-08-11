@@ -1,12 +1,9 @@
 import { Router } from 'express';
-import { UserRepository } from '../../entity/common/security/repositories/userRepository';
 import { User } from '../../entity/common/security/user';
-import { getAll, getOne } from './../base';
+import { UserRepository } from '../../repositories/security/userRepository';
+import { addBaseRoutes } from '../../utils/routerUtils';
 
-let userRoutes = Router();
-userRoutes.get("/hi", (req, res, next) => res.send("Hello"))
-userRoutes.get("/:id", getOne<User>(User, UserRepository))
-// export const get = getOne<User>(GetUserRepository())
-userRoutes.get("/", getAll<User>(User, UserRepository));
+let userController = Router();
+userController = addBaseRoutes(userController, User, UserRepository);
 
-export default userRoutes;
+export default userController;

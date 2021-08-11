@@ -1,6 +1,7 @@
 import { Router } from "express";
-import authRouter from "./controllers/auth/auth";
-import userRoutes from "./controllers/common/userController";
+import authController from "./controllers/auth/auth";
+import postController from "./controllers/blog/postController";
+import userController from "./controllers/common/userController";
 
 const routes = Router();
 // const router = Router();
@@ -8,8 +9,9 @@ const routes = Router();
 // export const Routes = async (req, res, next) => {
 
 // }
-routes.use("/auth", authRouter)
-routes.use('/user', userRoutes);
+routes.use("/auth", authController)
+routes.use('/user', userController);
+routes.use('/post', postController);
 
 export default routes;
 

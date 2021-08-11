@@ -7,6 +7,7 @@ import "reflect-metadata";
 import { createConnection } from 'typeorm';
 import { LogMiddleware } from './src/middlewares/log-middleware';
 import routes from './src/routes';
+import { AppError } from './src/utils/appError';
 import AppInitializer from './src/utils/appInitializer';
 
 import cors = require('cors');
@@ -42,7 +43,7 @@ app.use(function (req, res, next) {
 });
 
 // error handler
-app.use(function (err, req, res, next) {
+app.use(function (err: AppError, req, res, next) {
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -56,7 +57,5 @@ app.use(function (err, req, res, next) {
 
 
 app.listen(process.env.PORT, () => {
-    app.routes;
     console.log(`⚡️[server]: Server is running at https://localhost:${process.env.PORT}`);
-
 });

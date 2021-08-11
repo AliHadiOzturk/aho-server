@@ -1,7 +1,6 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, Unique } from "typeorm";
-import { Comment } from "../../blog/comment";
-import { CustomBaseEntity } from "../../customBaseEntity";
-import { Person } from "../person";
+import { Person } from "../common/person";
+import { CustomBaseEntity } from "../customBaseEntity";
 import { Role } from "./role";
 
 
