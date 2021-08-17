@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { User } from '../../entity/common/security/user';
+import { User } from '../../entity/security/user';
 import { UserRepository } from '../../repositories/security/userRepository';
 import { addBaseRoutes } from '../../utils/routerUtils';
 

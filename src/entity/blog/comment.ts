@@ -1,7 +1,8 @@
 import { Column, Entity, JoinColumn, ManyToOne } from "typeorm";
-import { User } from '../common/security/user';
 import { CustomBaseEntity } from "../customBaseEntity";
+import { User } from "../security/user";
 import { Post } from "./post";
+
 
 @Entity()
 export class Comment extends CustomBaseEntity<Comment> {

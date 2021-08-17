@@ -1,8 +1,8 @@
 import { readFileSync } from "fs";
 import { getManager } from "typeorm";
-import { Permission } from "../entity/common/security/permission";
-import { Role } from "../entity/common/security/role";
-import { User } from "../entity/common/security/user";
+import { Permission } from "../entity/security/permission";
+import { Role } from "../entity/security/role";
+import { User } from "../entity/security/user";
 import path = require("path");
 
 export default class AppInitializer {

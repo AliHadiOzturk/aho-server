@@ -2,7 +2,7 @@ import * as bcrypt from 'bcryptjs';
 import { NextFunction, Request, Response, Router } from "express";
 import * as jwt from 'jsonwebtoken';
 import { getCustomRepository } from 'typeorm';
-import { User } from '../../entity/common/security/user';
+import { User } from '../../entity/security/user';
 import { UserRepository } from '../../repositories/security/userRepository';
 import { AppError } from '../../utils/appError';
 import { Person } from './../../entity/common/person';

@@ -16,10 +16,11 @@
       "resolveJsonModule": true,
       "outDir": "dist",
       "sourceMap": true,
-      // "experimentalDecorators": true,
-      // "emitDecoratorMetadata": true
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true
    },
    "include": [
-      "ormconfig.json"
+      "ormconfig.json",
+      ".env"
    ]
 }
