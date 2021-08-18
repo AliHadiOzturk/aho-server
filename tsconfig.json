@@ -21,6 +21,7 @@
    },
    "include": [
       "ormconfig.json",
-      ".env"
+      ".env",
+      "./**/*"
    ]
 }

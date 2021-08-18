@@ -1,26 +1,19 @@
 import { Router } from "express";
 import { del, getAll, getOne, save, update } from "../controllers/base";
-import { authorization } from './../middlewares/authorization';
+import { authorization } from "../middlewares/authorization";
+
 
 
 export const addBaseRoutes = (router: Router, entity: any, entityRepository: any, options?: AddBaseRoutesOptions) => {
-    let authorization = options ? options.authorization : new AddBaseRoutesOptions().authorization;
-    router.get("/", addAuth(authorization.getAllFunc), getAll(entity, entityRepository));
-    router.get("/:id", addAuth(authorization.getOneFunc), getOne(entity, entityRepository));
-    router.post("/", addAuth(authorization.saveFunc), save(entity, entityRepository));
-    router.put("/", addAuth(authorization.updateFunc), update(entity, entityRepository));
-    router.delete("/:id", addAuth(authorization.delFunc), del(entity, entityRepository));
+    let authOptions = options ? options.authorization : new AddBaseRoutesOptions().authorization;
+    router.get("/", authorization(authOptions.getAllFunc), getAll(entity, entityRepository));
+    router.get("/:id", authorization(authOptions.getOneFunc), getOne(entity, entityRepository));
+    router.post("/", authorization(authOptions.saveFunc), save(entity, entityRepository));
+    router.put("/", authorization(authOptions.updateFunc), update(entity, entityRepository));
+    router.delete("/:id", authorization(authOptions.delFunc), del(entity, entityRepository));
     return router;
 }
 
-const addAuth = (addAuth: boolean) => async (req, res, next) => {
-    if (addAuth) {
-        return authorization;
-    }
-    else {
-        return next();
-    }
-}
 
 export class AddBaseRoutesOptions {
     authorization = {

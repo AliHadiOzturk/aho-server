@@ -24,7 +24,7 @@ interface RegisterModel {
 authController.get("/", (req, res) => res.json("OK"))
 authController.post("/login", async (req: Request<{}, {}, LoginModel>, res: Response, next: NextFunction) => {
     if (!req.body)
-        res.sendStatus(404);
+        return next(new AppError(404, "Bad Request"));
     let request = req.body;
 
 
@@ -33,12 +33,12 @@ authController.post("/login", async (req: Request<{}, {}, LoginModel>, res: Resp
     let user = await userRepository.findByUsernameOrEmail(request.username, request.username)
 
     if (!user)
-        res.send(new AppError(400, "User not found"));
+        return next(new AppError(400, "User not found"));
 
     let password = request.password;
     let passwordHash = await bcrypt.hash(user.password, 10);
     if (!bcrypt.compareSync(password, passwordHash))
-        res.send(new AppError(400, "Username or password is invalid"));
+        return next(new AppError(400, "Username or password is invalid"));
     delete user.password;
     const token = jwt.sign({
         user: user.id,
@@ -54,14 +54,14 @@ authController.post("/login", async (req: Request<{}, {}, LoginModel>, res: Resp
 
 authController.post("/register", async (req: Request<{}, {}, RegisterModel>, res: Response, next: NextFunction) => {
     if (Object.keys(req.body).length == 0)
-        return res.status(400).json(new AppError(400, "", "Body cannot be empty"));
+        return next(new AppError(400, "", "Body cannot be empty"));
     let request = req.body;
 
     const userRepository = getCustomRepository(UserRepository);
     let user = await userRepository.findByUsernameOrEmail(request.username, request.username)
 
     if (user) {
-        return res.status(403).send("User already exist");
+        return next(new AppError(403, "User already exist"));
     }
 
     let encryptedPassword = await bcrypt.hash(request.password, 10);
